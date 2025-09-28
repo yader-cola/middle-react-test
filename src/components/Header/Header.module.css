@@ -1,0 +1,24 @@
+.header {
+    text-align: center;
+}
+
+.h1 {
+    font-size: 2rem;
+}
+
+.nav {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.5rem;
+    font-size: 1.2rem;
+}
+
+.navLink {
+    text-decoration: none;
+}
+
+.navLink:hover {
+    text-decoration: underline;
+}

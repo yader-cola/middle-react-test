@@ -1,0 +1,25 @@
+{
+  "products": [
+    {
+      "id": 1,
+      "name": "Бананы",
+      "category": "food",
+      "price": 100,
+      "description": "Свежие бананы"
+    },
+    {
+      "id": 2,
+      "name": "Футболка",
+      "category": "clothes",
+      "price": 500,
+      "description": "Хлопковая футболка"
+    },
+    {
+      "id": 3,
+      "name": "Смартфон",
+      "category": "electronics",
+      "price": 30000,
+      "description": "Мощный смартфон"
+    }
+  ]
+}
