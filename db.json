@@ -4,22 +4,169 @@
       "id": 1,
       "name": "Бананы",
       "category": "food",
-      "price": 100,
-      "description": "Свежие бананы"
+      "price": 120,
+      "description": "Свежие спелые бананы"
     },
     {
       "id": 2,
-      "name": "Футболка",
-      "category": "clothes",
-      "price": 500,
-      "description": "Хлопковая футболка"
+      "name": "Яблоки Голден",
+      "category": "food",
+      "price": 85,
+      "description": "Сладкие яблоки сорта Голден"
     },
     {
       "id": 3,
-      "name": "Смартфон",
+      "name": "Молоко",
+      "category": "food",
+      "price": 75,
+      "description": "Свежее пастеризованное молоко"
+    },
+    {
+      "id": 4,
+      "name": "Хлеб Бородинский",
+      "category": "food",
+      "price": 60,
+      "description": "Ржаной хлеб с тмином"
+    },
+    {
+      "id": 5,
+      "name": "Сыр Российский",
+      "category": "food",
+      "price": 450,
+      "description": "Твердый сыр 45% жирности"
+    },
+    {
+      "id": 6,
+      "name": "Куриная Грудка",
+      "category": "food",
+      "price": 320,
+      "description": "Охлажденная куриная грудка"
+    },
+    {
+      "id": 7,
+      "name": "Футболка Хлопковая",
+      "category": "clothes",
+      "price": 890,
+      "description": "Хлопковая футболка белого цвета"
+    },
+    {
+      "id": 8,
+      "name": "Джинсы Slim Fit",
+      "category": "clothes",
+      "price": 2490,
+      "description": "Облегающие джинсы синего цвета"
+    },
+    {
+      "id": 9,
+      "name": "Куртка Джинсовая",
+      "category": "clothes",
+      "price": 3890,
+      "description": "Джинсовая куртка с капюшоном"
+    },
+    {
+      "id": 10,
+      "name": "Кроссовки Беговые",
+      "category": "clothes",
+      "price": 5290,
+      "description": "Легкие беговые кроссовки"
+    },
+    {
+      "id": 11,
+      "name": "Свитер Шерстяной",
+      "category": "clothes",
+      "price": 3290,
+      "description": "Теплый шерстяной свитер"
+    },
+    {
+      "id": 12,
+      "name": "Бейсболка",
+      "category": "clothes",
+      "price": 790,
+      "description": "Бейсболка с регулируемым ремешком"
+    },
+    {
+      "id": 13,
+      "name": "Смартфон Galaxy",
       "category": "electronics",
-      "price": 30000,
-      "description": "Мощный смартфон"
+      "price": 45990,
+      "description": "Флагманский смартфон с AMOLED экраном"
+    },
+    {
+      "id": 14,
+      "name": "Ноутбук Gaming",
+      "category": "electronics",
+      "price": 89990,
+      "description": "Игровой ноутбук с RTX видеокартой"
+    },
+    {
+      "id": 15,
+      "name": "Наушники Wireless",
+      "category": "electronics",
+      "price": 12990,
+      "description": "Беспроводные наушники с шумоподавлением"
+    },
+    {
+      "id": 16,
+      "name": "Умные Часы",
+      "category": "electronics",
+      "price": 15990,
+      "description": "Умные часы с функцией ECG"
+    },
+    {
+      "id": 17,
+      "name": "Планшет 10.5″",
+      "category": "electronics",
+      "price": 32990,
+      "description": "Планшет с стилусом для рисования"
+    },
+    {
+      "id": 18,
+      "name": "Фотоаппарат Mirrorless",
+      "category": "electronics",
+      "price": 75990,
+      "description": "Беззеркальная камера 24.2 Мп"
+    },
+    {
+      "id": 19,
+      "name": "Кофе в Зернах",
+      "category": "food",
+      "price": 890,
+      "description": "Арабика 100%, средняя обжарка"
+    },
+    {
+      "id": 20,
+      "name": "Шоколад Горький",
+      "category": "food",
+      "price": 180,
+      "description": "Горький шоколад 85% какао"
+    },
+    {
+      "id": 21,
+      "name": "Платье Вечернее",
+      "category": "clothes",
+      "price": 6590,
+      "description": "Вечернее платье для особых случаев"
+    },
+    {
+      "id": 22,
+      "name": "Рюкзак Городской",
+      "category": "clothes",
+      "price": 2890,
+      "description": "Водонепроницаемый городской рюкзак"
+    },
+    {
+      "id": 23,
+      "name": "Игровая Консоль",
+      "category": "electronics",
+      "price": 45990,
+      "description": "Новейшая игровая консоль 4K"
+    },
+    {
+      "id": 24,
+      "name": "Электронная Книга",
+      "category": "electronics",
+      "price": 8990,
+      "description": "Электронная книга с подсветкой"
     }
   ]
 }

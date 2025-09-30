@@ -5,3 +5,20 @@ export interface Product {
     price: number;
     description: string;
 }
+
+export interface ProductsState {
+    items: Product[];
+    loading: boolean;
+    error: string | null;
+    currentPage: number;
+    itemsPerPage: number;
+}
+
+export interface CartItem {
+    product: Product;
+    quantity: number;
+}
+
+export interface CartState {
+    items: CartItem[];
+}
