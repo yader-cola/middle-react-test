@@ -1,10 +1,14 @@
-import type { ProductsState } from "../../types/product";
+import type {ProductsState, SortField, SortOrder} from "../../types/product";
 import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 export const fetchProducts = createAsyncThunk(
     'products/fetchProducts',
-    async () => {
-        const response = await fetch('http://localhost:3001/products');
+    async (category?: string) => {
+        const url = category && category !== 'all'
+            ? `http://localhost:3001/products?category=${category}`
+            : 'http://localhost:3001/products';
+
+        const response = await fetch(url);
         if(!response.ok) {
             throw new Error('Failed to fetch products');
         }
@@ -18,6 +22,8 @@ const initialState: ProductsState = {
     error: null,
     currentPage: 1,
     itemsPerPage: 6,
+    sortField: 'name',
+    sortOrder: 'asc',
 }
 
 const productsSlice = createSlice({
@@ -27,6 +33,10 @@ const productsSlice = createSlice({
         setCurrentPage: (state, action: PayloadAction<number>) => {
             state.currentPage = action.payload;
         },
+        setSort: (state, action: PayloadAction<{field: SortField; order: SortOrder}>) => {
+            state.sortField = action.payload.field;
+            state.sortOrder = action.payload.order;
+        }
     },
     extraReducers: (builder)=> {
         builder
@@ -45,5 +55,5 @@ const productsSlice = createSlice({
     },
 });
 
-export const { setCurrentPage } = productsSlice.actions;
+export const { setCurrentPage, setSort } = productsSlice.actions;
 export default productsSlice.reducer;

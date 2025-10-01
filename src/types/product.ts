@@ -12,6 +12,8 @@ export interface ProductsState {
     error: string | null;
     currentPage: number;
     itemsPerPage: number;
+    sortField: SortField;
+    sortOrder: SortOrder;
 }
 
 export interface CartItem {
@@ -22,3 +24,6 @@ export interface CartItem {
 export interface CartState {
     items: CartItem[];
 }
+
+export type SortField = 'name' | 'price';
+export type SortOrder = 'asc' | 'desc';
