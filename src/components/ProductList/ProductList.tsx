@@ -3,7 +3,8 @@ import {useAppDispatch, useAppSelector} from "../../store/hooks";
 import {fetchProducts, setCurrentPage, setSort} from "../../store/slices/productsSlice";
 import style from "./ProductList.module.css";
 import {useSearchParams} from "react-router-dom";
-import type {SortField} from "../../types/product.ts";
+import type {Product, SortField} from "../../types/product.ts";
+import {addToCart} from "../../store/slices/cartSlice.ts";
 
 const ProductList: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -38,6 +39,10 @@ const ProductList: React.FC = () => {
 
     const startIndex = (currentPage - 1) * itemsPerPage;
     const paginatedProducts = sortedAndFilteredProducts.slice(startIndex, startIndex + itemsPerPage);
+
+    const handleAddToCart = (product: Product) => {
+        dispatch(addToCart(product));
+    }
 
     const handleSortChange = (field: SortField) => {
         const newOrder = sortField === field && sortOrder === 'asc' ? 'desc' : 'asc';
@@ -95,7 +100,7 @@ const ProductList: React.FC = () => {
                         <p>{product.description}</p>
                         <div className={style.category}>Категория: {product.category}</div>
                         <div className={style.price}>{product.price} Р</div>
-                        <button className={style.addButton} onClick={() => console.log('Add to cart:', product.id)}>
+                        <button className={style.addButton} onClick={() => handleAddToCart(product)}>
                             В корзину
                         </button>
                     </div>
