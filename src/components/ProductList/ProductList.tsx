@@ -2,7 +2,7 @@ import React, {useEffect, useMemo} from 'react';
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
 import {fetchProducts, setCurrentPage, setSort} from "../../store/slices/productsSlice";
 import style from "./ProductList.module.css";
-import {useSearchParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import type {Product, SortField} from "../../types/product.ts";
 import {addToCart} from "../../store/slices/cartSlice.ts";
 import Filters from "../Filters";
@@ -16,17 +16,20 @@ const ProductList: React.FC = () => {
         (state) => state.products
     );
 
-    const [searchParams, setSearchParams] = useSearchParams();
-    const category = searchParams.get('category') || 'all';
+    const { categoryName } = useParams<{ categoryName?: string }>();
+    const category = categoryName || 'all';
+
+    const navigate = useNavigate();
 
     useEffect(() => {
-        dispatch(fetchProducts());
+        dispatch(fetchProducts(category));
     }, [dispatch, category])
 
     const sortedAndFilteredProducts = useMemo(() => {
-        const filtered = category === 'all'
-            ? [...items]
-            : items.filter(product => product.category === category);
+        const filtered =
+            category === 'all'
+                ? [...items]
+                : items.filter(product => product.category === category);
 
         return filtered.sort((a, b) => {
             if (sortField === 'name') {
@@ -62,14 +65,11 @@ const ProductList: React.FC = () => {
     }
 
     const handleCategoryChange = (newCategory: string) => {
-        const newParams = new URLSearchParams(searchParams);
         if (newCategory === 'all') {
-            newParams.delete('category');
+            navigate('/category');
         } else {
-            newParams.set('category', newCategory);
+            navigate(`/category/${newCategory}`);
         }
-        newParams.delete('page');
-        setSearchParams(newParams);
         dispatch(setCurrentPage(1));
     }
 
