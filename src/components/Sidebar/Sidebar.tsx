@@ -3,6 +3,7 @@ import {useAppDispatch, useAppSelector} from "../../store/hooks";
 import {removeFromCart, updateQuantity} from "../../store/slices/cartSlice.ts";
 import style from "./Sidebar.module.css";
 import CartItem from "../CartItem";
+import EmptyCart from "../EmptyCart";
 
 interface SidebarProps {
     isOpen: boolean;
@@ -50,13 +51,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
 
                 <div className={style.content}>
                     {items.length === 0 ? (
-                        <div className={style.emptyCart}>
-                            🛒 Корзина пуста
-                            <p>Добавьте товары из каталога</p>
-                            <button className={style.continueShopping} onClick={onClose}>
-                                Продолжить покупки
-                            </button>
-                        </div>
+                        <EmptyCart onClose={onClose} />
                     ) : (
                         <>
                             <div className={style.items}>
