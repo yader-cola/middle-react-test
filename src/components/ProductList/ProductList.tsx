@@ -40,6 +40,14 @@ const ProductList: React.FC = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const paginatedProducts = sortedAndFilteredProducts.slice(startIndex, startIndex + itemsPerPage);
 
+    const totalFilteredPages = Math.ceil(sortedAndFilteredProducts.length / itemsPerPage);
+
+    useEffect(() => {
+        if (currentPage > totalFilteredPages && totalFilteredPages > 0) {
+            dispatch(setCurrentPage(totalFilteredPages));
+        }
+    }, [currentPage, totalFilteredPages, dispatch]);
+
     const handleAddToCart = (product: Product) => {
         dispatch(addToCart(product));
     }
@@ -111,8 +119,8 @@ const ProductList: React.FC = () => {
                 <button disabled={currentPage === 1} onClick={() => dispatch(setCurrentPage(currentPage - 1))}>
                     Назад
                 </button>
-                <span>Страница {currentPage}</span>
-                <button disabled={paginatedProducts.length < itemsPerPage} onClick={() => dispatch(setCurrentPage(currentPage + 1))}>
+                <span>Страница {currentPage} из {totalFilteredPages}</span>
+                <button disabled={currentPage >= totalFilteredPages} onClick={() => dispatch(setCurrentPage(currentPage + 1))}>
                     Вперед
                 </button>
             </div>

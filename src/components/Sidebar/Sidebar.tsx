@@ -51,7 +51,11 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
                 <div className={style.content}>
                     {items.length === 0 ? (
                         <div className={style.emptyCart}>
-                            Корзина пуста
+                            🛒 Корзина пуста
+                            <p>Добавьте товары из каталога</p>
+                            <button className={style.continueShopping} onClick={onClose}>
+                                Продолжить покупки
+                            </button>
                         </div>
                     ) : (
                         <>
