@@ -27,21 +27,22 @@ const cartSlice = createSlice({
         removeFromCart: (state, action: PayloadAction<number>) => {
             state.items = state.items.filter(item => item.product.id !== action.payload);
         },
-        updateQuantity: (state, action: PayloadAction<{productId: number; quantity: number; operation?: 'increment' | 'decrement'}>) => {
-            const item = state.items.find(item => item.product.id === action.payload.productId);
-
+        incrementQuantity: (state, action: PayloadAction<number>) => {
+            const item = state.items.find(item => item.product.id === action.payload);
             if (!item) return;
-
-            if (action.payload.operation === 'increment') {
-                item.quantity += action.payload.quantity;
-            } else if (action.payload.operation === 'decrement') {
-                item.quantity = Math.max(1, item.quantity - action.payload.quantity);
+            item.quantity += 1;
+        },
+        decrementQuantity: (state, action: PayloadAction<number>) => {
+            const item = state.items.find(item => item.product.id === action.payload);
+            if (!item) return;
+            if (item.quantity > 1) {
+                item.quantity -= 1;
             } else {
-                item.quantity = action.payload.quantity;
+                state.items = state.items.filter(cartItem => cartItem.product.id !== action.payload);
             }
         }
     },
 });
 
-export const { addToCart, removeFromCart, updateQuantity } = cartSlice.actions;
+export const { addToCart, removeFromCart, incrementQuantity, decrementQuantity } = cartSlice.actions;
 export default cartSlice.reducer;

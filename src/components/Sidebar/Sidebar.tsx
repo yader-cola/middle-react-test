@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
-import {removeFromCart, updateQuantity} from "../../store/slices/cartSlice.ts";
+import {decrementQuantity, incrementQuantity, removeFromCart} from "../../store/slices/cartSlice.ts";
 import style from "./Sidebar.module.css";
 import CartItem from "../CartItem";
 import EmptyCart from "../EmptyCart";
@@ -13,21 +13,15 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
     const dispatch = useAppDispatch();
     const { items } = useAppSelector((state) => state.cart);
+
     console.log('Rendering Sidebar');
+
     const handleIncreaseQuantity = useCallback((productId: number) => {
-        const item = items.find(item => item.product.id === productId);
-        if (item) {
-            dispatch(updateQuantity({productId, quantity: item.quantity + 1}));
-        }
+        dispatch(incrementQuantity(productId));
     }, [dispatch]);
 
     const handleDecreaseQuantity = useCallback((productId: number) => {
-        const item = items.find(item => item.product.id === productId);
-        if (item && item.quantity > 1) {
-            dispatch(updateQuantity({ productId, quantity: item.quantity - 1 }));
-        } else {
-            dispatch(removeFromCart(productId));
-        }
+        dispatch(decrementQuantity(productId));
     }, [dispatch]);
 
     const handleRemoveItem = useCallback((productId: number) => {
