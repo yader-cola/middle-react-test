@@ -16,13 +16,13 @@ export interface ProductsState {
     sortOrder: SortOrder;
 }
 
-export interface CartItem {
+export interface CartItemType {
     product: Product;
     quantity: number;
 }
 
 export interface CartState {
-    items: CartItem[];
+    items: CartItemType[];
 }
 
 export type SortField = 'name' | 'price';
