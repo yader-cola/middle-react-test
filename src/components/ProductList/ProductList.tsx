@@ -5,6 +5,10 @@ import style from "./ProductList.module.css";
 import {useSearchParams} from "react-router-dom";
 import type {Product, SortField} from "../../types/product.ts";
 import {addToCart} from "../../store/slices/cartSlice.ts";
+import Filters from "../Filters";
+import Sorting from "../Sorting";
+import Pagination from "../Pagination";
+import ProductCard from "../ProductCard";
 
 const ProductList: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -69,61 +73,27 @@ const ProductList: React.FC = () => {
         dispatch(setCurrentPage(1));
     }
 
+    const handlePageChange = (page: number) => {
+        dispatch(setCurrentPage(page));
+    }
+
     if (loading) return <div className={style.loading}>Загрузка товаров...</div>;
     if (error) return <div className={style.error}>Ошибка: {error}</div>
 
     return (
         <div className={style.productList}>
-            <div className={style.filters}>
-                <button className={category === 'all' ? style.activeFilter : style.filterButton} onClick={() => handleCategoryChange('all')}>
-                    Все товары
-                </button>
-                <button className={category === 'food' ? style.activeFilter : style.filterButton} onClick={() => handleCategoryChange('food')}>
-                    Еда
-                </button>
-                <button className={category === 'clothes' ? style.activeFilter : style.filterButton} onClick={() => handleCategoryChange('clothes')}>
-                    Одежда
-                </button>
-                <button className={category === 'electronics' ? style.activeFilter : style.filterButton} onClick={() => handleCategoryChange('electronics')}>
-                    Электроника
-                </button>
-            </div>
-
-            <div className={style.sorting}>
-                <span>Сортировка: </span>
-                <button className={sortField === 'name' ? style.activeSort : style.sortButton} onClick={() => handleSortChange('name')}>
-                    По названию {sortField === 'name' && (sortOrder === 'asc' ? '↑' : '↓')}
-                </button>
-                <button className={sortField === 'price' ? style.activeSort : style.sortButton} onClick={() => handleSortChange('price')}>
-                    По цене {sortField === 'price' && (sortOrder === 'asc' ? '↑' : '↓')}
-                </button>
-            </div>
+            <Filters category={category} onCategoryChange={handleCategoryChange} />
+            <Sorting sortField={sortField} sortOrder={sortOrder} onSortChange={handleSortChange} />
 
             <h2>Товары {category !== 'all' ? `- ${getCategoryName(category)}` : ''}</h2>
 
             <div className={style.grid}>
                 {paginatedProducts.map((product) => (
-                    <div key={product.id} className={style.productCard}>
-                        <h3>{product.name}</h3>
-                        <p>{product.description}</p>
-                        <div className={style.category}>Категория: {product.category}</div>
-                        <div className={style.price}>{product.price} Р</div>
-                        <button className={style.addButton} onClick={() => handleAddToCart(product)}>
-                            В корзину
-                        </button>
-                    </div>
+                    <ProductCard key={product.id} product={product} onAddToCart={handleAddToCart} />
                 ))}
             </div>
 
-            <div className={style.pagination}>
-                <button disabled={currentPage === 1} onClick={() => dispatch(setCurrentPage(currentPage - 1))}>
-                    Назад
-                </button>
-                <span>Страница {currentPage} из {totalFilteredPages}</span>
-                <button disabled={currentPage >= totalFilteredPages} onClick={() => dispatch(setCurrentPage(currentPage + 1))}>
-                    Вперед
-                </button>
-            </div>
+            <Pagination currentPage={currentPage} totalPages={totalFilteredPages} onPageChange={handlePageChange} />
         </div>
     );
 };

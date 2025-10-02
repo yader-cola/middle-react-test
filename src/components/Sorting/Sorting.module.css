@@ -1,0 +1,22 @@
+.sorting {
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sortButton {
+    padding: 6px 12px;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.activeSort {
+    padding: 6px 12px;
+    border: 1px solid #1976d2;
+    background: #e3f2fd;
+    border-radius: 4px;
+    cursor: pointer;
+}
