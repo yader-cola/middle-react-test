@@ -1,20 +1,7 @@
-import type {ProductsState, SortField, SortOrder} from "../../types/product";
-import { createAsyncThunk, createSlice, type PayloadAction } from "@reduxjs/toolkit";
-
-export const fetchProducts = createAsyncThunk(
-    'products/fetchProducts',
-    async (category?: string) => {
-        const url = category && category !== 'all'
-            ? `http://localhost:3001/products?category=${category}`
-            : 'http://localhost:3001/products';
-
-        const response = await fetch(url);
-        if(!response.ok) {
-            throw new Error('Failed to fetch products');
-        }
-        return await response.json();
-    }
-);
+import type {ProductsState} from "../../../types/product.ts";
+import {SORT_FIELDS, SORT_ORDERS, type SortField, type SortOrder} from "../../../constants/constants.ts";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import {fetchProducts} from "./thunks.ts";
 
 const initialState: ProductsState = {
     items: [],
@@ -22,8 +9,8 @@ const initialState: ProductsState = {
     error: null,
     currentPage: 1,
     itemsPerPage: 6,
-    sortField: 'name',
-    sortOrder: 'asc',
+    sortField: SORT_FIELDS.NAME,
+    sortOrder: SORT_ORDERS.ASC,
 }
 
 const productsSlice = createSlice({

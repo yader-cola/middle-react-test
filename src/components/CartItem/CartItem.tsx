@@ -1,4 +1,4 @@
-import {memo, useCallback} from 'react';
+import {memo} from 'react';
 import type {CartItemType} from '../../types/product';
 import style from "./CartItem.module.css";
 
@@ -12,19 +12,6 @@ interface CartItemProps {
 const CartItem = memo(({item, onIncrease, onDecrease, onRemove}: CartItemProps) => {
 
     console.log(`Rendering CartItem ${item.product.name}`);
-
-    const handleIncrease = useCallback(() => {
-        onIncrease(item.product.id);
-    }, [onIncrease, item.product.id]);
-
-    const handleDecrease = useCallback(() => {
-        onDecrease(item.product.id);
-    }, [onDecrease, item.product.id]);
-
-    const handleRemove = useCallback(() => {
-        onRemove(item.product.id);
-    }, [onRemove, item.product.id]);
-
     return (
         <div className={style.cartItem}>
             <div className={style.itemInfo}>
@@ -36,15 +23,15 @@ const CartItem = memo(({item, onIncrease, onDecrease, onRemove}: CartItemProps) 
             </div>
             <div className={style.itemActions}>
                 <div className={style.quantityControls}>
-                    <button className={style.quantityButton} onClick={handleDecrease}>
+                    <button className={style.quantityButton} onClick={() => onDecrease(item.product.id)}>
                         -
                     </button>
                     <span className={style.quantity}>{item.quantity}</span>
-                    <button className={style.quantityButton} onClick={handleIncrease}>
+                    <button className={style.quantityButton} onClick={() => onIncrease(item.product.id)}>
                         +
                     </button>
                 </div>
-                <button className={style.removeButton} onClick={handleRemove}>
+                <button className={style.removeButton} onClick={() => onRemove(item.product.id)}>
                     Удалить
                 </button>
             </div>

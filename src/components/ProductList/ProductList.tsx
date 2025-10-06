@@ -1,14 +1,25 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect} from 'react';
 import {useAppDispatch, useAppSelector} from "../../store/hooks";
-import {fetchProducts, setCurrentPage, setSort} from "../../store/slices/productsSlice";
+import {setSort} from "../../store/slices/productSlice/productsSlice.ts";
+import {fetchProducts} from '../../store/slices/productSlice/thunks.ts';
 import style from "./ProductList.module.css";
-import {useNavigate, useParams} from "react-router-dom";
-import type {Product, SortField} from "../../types/product.ts";
+import {useParams} from "react-router-dom";
+import type {Product} from "../../types/product.ts";
 import {addToCart} from "../../store/slices/cartSlice.ts";
 import Filters from "../Filters";
 import Sorting from "../Sorting";
 import Pagination from "../Pagination";
 import ProductCard from "../ProductCard";
+import {
+    CATEGORIES,
+    CATEGORY_LABELS,
+    SORT_ORDERS,
+    type Category,
+    type SortField
+} from "../../constants/constants.ts";
+import {usePagination} from "./hooks/usePagination.ts";
+import {useProductFiltering} from "./hooks/useProductFiltering.ts";
+import {useCategoryNavigation} from "./hooks/useCategoryNavigation.ts";
 
 const ProductList: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -17,64 +28,25 @@ const ProductList: React.FC = () => {
     );
 
     const { categoryName } = useParams<{ categoryName?: string }>();
-    const category = categoryName || 'all';
-
-    const navigate = useNavigate();
+    const category = categoryName || CATEGORIES.ALL;
 
     useEffect(() => {
         dispatch(fetchProducts(category));
     }, [dispatch, category])
 
-    const sortedAndFilteredProducts = useMemo(() => {
-        const filtered =
-            category === 'all'
-                ? [...items]
-                : items.filter(product => product.category === category);
+    const sortedAndFilteredProducts = useProductFiltering({ items, category, sortField, sortOrder });
+    const { totalPages, startIndex, handlePageChange } = usePagination({ currentPage, totalItems: sortedAndFilteredProducts.length, itemsPerPage });
 
-        return filtered.sort((a, b) => {
-            if (sortField === 'name') {
-                return sortOrder === 'asc'
-                    ? a.name.localeCompare(b.name)
-                    : b.name.localeCompare(a.name);
-            } else {
-                return sortOrder === 'asc'
-                    ? a.price - b.price
-                    : b.price - a.price;
-            }
-        });
-    }, [items, category, sortField, sortOrder]);
-
-    const startIndex = (currentPage - 1) * itemsPerPage;
     const paginatedProducts = sortedAndFilteredProducts.slice(startIndex, startIndex + itemsPerPage);
-
-    const totalFilteredPages = Math.ceil(sortedAndFilteredProducts.length / itemsPerPage);
-
-    useEffect(() => {
-        if (currentPage > totalFilteredPages && totalFilteredPages > 0) {
-            dispatch(setCurrentPage(totalFilteredPages));
-        }
-    }, [currentPage, totalFilteredPages, dispatch]);
+    const handleCategoryChange = useCategoryNavigation();
 
     const handleAddToCart = (product: Product) => {
         dispatch(addToCart(product));
     }
 
     const handleSortChange = (field: SortField) => {
-        const newOrder = sortField === field && sortOrder === 'asc' ? 'desc' : 'asc';
+        const newOrder = sortField === field && sortOrder === SORT_ORDERS.ASC ? SORT_ORDERS.DESC : SORT_ORDERS.ASC;
         dispatch(setSort({field, order: newOrder}));
-    }
-
-    const handleCategoryChange = (newCategory: string) => {
-        if (newCategory === 'all') {
-            navigate('/category');
-        } else {
-            navigate(`/category/${newCategory}`);
-        }
-        dispatch(setCurrentPage(1));
-    }
-
-    const handlePageChange = (page: number) => {
-        dispatch(setCurrentPage(page));
     }
 
     if (loading) return <div className={style.loading}>Загрузка товаров...</div>;
@@ -85,7 +57,7 @@ const ProductList: React.FC = () => {
             <Filters category={category} onCategoryChange={handleCategoryChange} />
             <Sorting sortField={sortField} sortOrder={sortOrder} onSortChange={handleSortChange} />
 
-            <h2>Товары {category !== 'all' ? `- ${getCategoryName(category)}` : ''}</h2>
+            <h2>Товары {category !== CATEGORIES.ALL ? `- ${CATEGORY_LABELS[category as Category] || category}` : ''}</h2>
 
             <div className={style.grid}>
                 {paginatedProducts.map((product) => (
@@ -93,18 +65,9 @@ const ProductList: React.FC = () => {
                 ))}
             </div>
 
-            <Pagination currentPage={currentPage} totalPages={totalFilteredPages} onPageChange={handlePageChange} />
+            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
         </div>
     );
 };
-
-function getCategoryName(category: string): string {
-    const names: { [key: string]: string } = {
-        food: 'Еда',
-        clothes: 'Одежда',
-        electronics: 'Электроника'
-    };
-    return names[category] || category;
-}
 
 export default ProductList;

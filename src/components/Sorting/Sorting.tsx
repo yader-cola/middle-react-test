@@ -1,10 +1,10 @@
 import React from 'react';
 import style from "./Sorting.module.css";
-import type {SortField} from "../../types/product";
+import {CATEGORIES, SORT_FIELDS, SORT_ORDERS, type SortField, type SortOrder} from "../../constants/constants.ts";
 
 interface SortingProps {
     sortField: SortField;
-    sortOrder: 'asc' | 'desc';
+    sortOrder: SortOrder;
     onSortChange: (field: SortField) => void;
 }
 
@@ -12,11 +12,17 @@ const Sorting: React.FC<SortingProps> = ({ sortField, sortOrder, onSortChange}) 
     return (
         <div className={style.sorting}>
             <span>Сортировка: </span>
-            <button className={sortField === 'name' ? style.activeSort : style.sortButton} onClick={() => onSortChange('name')}>
-                По названию {sortField === 'name' && (sortOrder === 'asc' ? '↑' : '↓')}
+            <button
+                className={sortField === CATEGORIES.ALL ? style.activeSort : style.sortButton}
+                onClick={() => onSortChange(SORT_FIELDS.NAME)}
+            >
+                По названию {sortField === SORT_FIELDS.NAME && (sortOrder === SORT_ORDERS.ASC ? '↑' : '↓')}
             </button>
-            <button className={sortField === 'price' ? style.activeSort : style.sortButton} onClick={() => onSortChange('price')}>
-                По цене {sortField === 'price' && (sortOrder === 'asc' ? '↑' : '↓')}
+            <button
+                className={sortField === SORT_FIELDS.PRICE ? style.activeSort : style.sortButton}
+                onClick={() => onSortChange(SORT_FIELDS.PRICE)}
+            >
+                По цене {sortField === SORT_FIELDS.PRICE && (sortOrder === SORT_ORDERS.ASC ? '↑' : '↓')}
             </button>
         </div>
     );

@@ -1,7 +1,9 @@
+import type {Category, SortField, SortOrder} from "../constants/constants.ts";
+
 export interface Product {
     id: number;
     name: string;
-    category: 'food' | 'clothes' | 'electronics';
+    category: Category;
     price: number;
     description: string;
 }
@@ -24,6 +26,3 @@ export interface CartItemType {
 export interface CartState {
     items: CartItemType[];
 }
-
-export type SortField = 'name' | 'price';
-export type SortOrder = 'asc' | 'desc';

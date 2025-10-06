@@ -1,26 +1,24 @@
 import React from 'react';
 import style from './Filters.module.css';
+import {CATEGORY_LABELS, type Category} from "../../constants/constants.ts";
 
 interface FiltersProps {
     category: string;
-    onCategoryChange: (category: string) => void;
+    onCategoryChange: (category: Category) => void;
 }
 
 const Filters: React.FC<FiltersProps> = ({ category, onCategoryChange }) => {
     return (
         <div className={style.filters}>
-            <button className={category === 'all' ? style.activeFilter : style.filterButton} onClick={() => onCategoryChange('all')}>
-                Все товары
-            </button>
-            <button className={category === 'food' ? style.activeFilter : style.filterButton} onClick={() => onCategoryChange('food')}>
-                Еда
-            </button>
-            <button className={category === 'clothes' ? style.activeFilter : style.filterButton} onClick={() => onCategoryChange('clothes')}>
-                Одежда
-            </button>
-            <button className={category === 'electronics' ? style.activeFilter : style.filterButton} onClick={() => onCategoryChange('electronics')}>
-                Электроника
-            </button>
+            {Object.entries(CATEGORY_LABELS).map(([key, label]) => (
+                <button
+                    key={key}
+                    className={category === key ? style.activeFilter : style.filterButton}
+                    onClick={() => onCategoryChange(key as Category)}
+                >
+                    {label}
+                </button>
+            ))}
         </div>
     );
 };
